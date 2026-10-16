@@ -29,14 +29,14 @@ public class SnakeGame {
         if (status != Status.RUNNING) return;
         if (!direction.opposite(requested)) direction = requested;
         Cell next = snake.getFirst().move(direction);
-        if (next.x() < 0 || next.y() < 0 || next.y() >= height) {
+        if (next.x() < 0 || next.x() >= width || next.y() < 0 || next.y() >= height) {
             status = Status.WALL; return;
         }
         boolean growing = next.equals(food);
+        if (!growing) snake.removeLast();
         if (snake.contains(next)) { status = Status.SELF; return; }
         snake.addFirst(next);
         if (growing) { score += 10; placeFood(); }
-        else snake.removeLast();
     }
     private void placeFood() {
         List<Cell> free = new ArrayList<>();
